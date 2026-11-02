@@ -23,8 +23,8 @@
     { key: 'whatsapp', name: 'WhatsApp', color: '#25d366', domains: ['wa.me', 'whatsapp.com'] },
     { key: 'medium', name: 'Medium', color: '#e6e6e6', domains: ['medium.com'] }
   ];
-  const IMAGE_SOURCE = { key: 'captura', name: 'Capturas', color: '#7c6cff' };
-  const NOTE_SOURCE = { key: 'nota', name: 'Notas', color: '#f5c451' };
+  const IMAGE_SOURCE = { key: 'captura', name: 'Capturas', color: '#e0b46e' };
+  const NOTE_SOURCE = { key: 'nota', name: 'Notas', color: '#6ec7dd' };
 
   function hostOf(url) {
     try { return new URL(url).hostname.replace(/^www\.|^m\.|^mobile\./, ''); } catch { return ''; }
