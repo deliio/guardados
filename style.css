@@ -101,7 +101,7 @@ main { padding: 8px 16px; max-width: 980px; margin: 0 auto; }
 
 .empty { text-align: center; padding: 48px 16px; color: var(--muted); }
 .empty h2 { color: var(--text); font: 600 22px/1.2 var(--serif); margin: 8px 0; }
-.empty-icon { font-size: 44px; }
+.empty-icon { font-size: 40px; color: var(--accent); }
 
 .fab {
   position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom));
