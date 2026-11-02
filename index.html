@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Guardados</title>
+  <meta name="description" content="Guarda links y capturas para ver luego, ordenados por sitio.">
+  <meta name="theme-color" content="#11131a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="row">
+      <h1>Guardados</h1>
+      <button class="icon-btn" id="menuBtn" aria-label="Menú">⋯</button>
+    </div>
+    <input id="search" type="search" placeholder="Buscar en títulos, notas, etiquetas…" autocomplete="off">
+    <nav class="chips" id="sourceChips" aria-label="Filtrar por sitio"></nav>
+    <nav class="chips tags" id="tagChips" aria-label="Filtrar por etiqueta"></nav>
+  </header>
+
+  <main>
+    <p class="count" id="count"></p>
+    <section id="list" class="list"></section>
+    <div id="empty" class="empty" hidden>
+      <div class="empty-icon">🔖</div>
+      <h2>Aún no hay nada guardado</h2>
+      <p>Pulsa <b>+</b> para pegar un link o subir capturas.<br>
+      En Android, instala la app y aparecerá en el menú <b>Compartir</b> de TikTok, LinkedIn, la galería…</p>
+      <button class="btn ghost" data-open="help">¿Cómo se instala?</button>
+    </div>
+  </main>
+
+  <button class="fab" id="addBtn" aria-label="Añadir">+</button>
+
+  <!-- Añadir -->
+  <dialog id="addDlg" class="sheet">
+    <form method="dialog" id="addForm">
+      <h2>Añadir</h2>
+      <label class="field">
+        <span>Link o texto</span>
+        <textarea id="addText" rows="3" placeholder="Pega aquí un link de TikTok, LinkedIn…"></textarea>
+      </label>
+      <button type="button" class="btn ghost small" id="pasteBtn">📋 Pegar del portapapeles</button>
+      <label class="field">
+        <span>Capturas o fotos</span>
+        <input type="file" id="addFiles" accept="image/*,video/*" multiple>
+      </label>
+      <div class="field">
+        <span>Etiquetas</span>
+        <div class="tag-picker" id="addTags"></div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn ghost" value="cancel" data-close>Cancelar</button>
+        <button type="submit" class="btn primary" id="addSave">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Detalle -->
+  <dialog id="itemDlg" class="sheet">
+    <div id="itemBody"></div>
+  </dialog>
+
+  <!-- Menú -->
+  <dialog id="menuDlg" class="sheet">
+    <h2>Opciones</h2>
+    <div class="menu">
+      <button class="btn ghost" data-open="help">📲 Cómo instalar y compartir</button>
+      <button class="btn ghost" id="exportBtn">⬇️ Descargar copia de seguridad</button>
+      <label class="btn ghost file-btn">⬆️ Restaurar copia
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </label>
+      <button class="btn ghost" id="clearSeenBtn">🧹 Borrar los ya vistos</button>
+      <p class="hint">Todo se guarda solo en este dispositivo (no se sube a ningún sitio). Haz una copia de vez en cuando.</p>
+      <button class="btn" data-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- Ayuda -->
+  <dialog id="helpDlg" class="sheet">
+    <h2>Cómo usarla</h2>
+    <div class="help">
+      <h3>Android (Chrome)</h3>
+      <ol>
+        <li>Abre esta web en Chrome.</li>
+        <li>Menú ⋮ → <b>Instalar aplicación</b> (o “Añadir a pantalla de inicio”).</li>
+        <li>Desde TikTok, LinkedIn, la galería… pulsa <b>Compartir</b> y elige <b>Guardados</b>.</li>
+      </ol>
+      <p>Se clasifica solo: un link de TikTok va a TikTok, uno de LinkedIn a LinkedIn, las imágenes a Capturas.</p>
+      <h3>iPhone</h3>
+      <p>Safari no deja que una web salga en el menú Compartir. Dos opciones:</p>
+      <ol>
+        <li>Safari → Compartir → <b>Añadir a pantalla de inicio</b>, y luego usa <b>+</b> → “Pegar del portapapeles”.</li>
+        <li>Crea un Atajo (app Atajos) que se muestre en la hoja de compartir con la acción
+          <b>Abrir URL</b>: <code id="shortcutUrl"></code><i>[Entrada de atajo]</i>.</li>
+      </ol>
+      <button class="btn" data-close>Entendido</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="db.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
