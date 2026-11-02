@@ -342,12 +342,18 @@ async function handleIncoming() {
     if (!n) toast('No se encontró nada que guardar en lo compartido');
   } else if (p.has('error')) {
     toast('No se pudo guardar lo compartido');
-  } else if (p.has('url') || p.has('text') || p.has('title')) {
-    // Para atajos de iPhone o marcadores: ?text=… / ?url=…
-    saved = DB.buildItems({ url: p.get('url') || '', text: p.get('text') || '', title: p.get('title') || '' });
+  } else if (location.search || location.hash) {
+    // Para atajos de iPhone o marcadores: ?text=… / ?url=… (o cualquier link que venga en la dirección)
+    let raw = '';
+    try { raw = decodeURIComponent(location.search.slice(1) + ' ' + location.hash.slice(1)); } catch { raw = location.search + ' ' + location.hash; }
+    saved = DB.buildItems({
+      url: p.get('url') || '', title: p.get('title') || '',
+      text: [p.get('text'), DB.extractUrl(raw)].filter(Boolean).join(' ')
+    });
     await DB.putMany(saved);
+    if (!saved.length) toast('El atajo abrió la web pero no llegó ningún link. Revisa el paso “Codificar URL” del atajo.', 9000);
   }
-  if ([...p.keys()].length) history.replaceState(null, '', location.pathname);
+  if (location.search || location.hash) history.replaceState(null, '', location.pathname);
   await load();
   if (saved.length) savedToast(saved.map(s => state.items.find(i => i.id === s.id)).filter(Boolean));
 }

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Guardados</title>
+  <script>
+    // Si el atajo olvidó "?text=", el link llega pegado a la ruta: /guardados/https%3A%2F%2F…
+    // Lo reenviamos a la app para que lo guarde igualmente.
+    (function () {
+      var base = '/guardados/';
+      var path = location.pathname;
+      var rest = path.indexOf(base) === 0 ? path.slice(base.length) : path.slice(1);
+      try { rest = decodeURIComponent(rest); } catch (e) {}
+      var hasLink = /https?:|[a-z0-9-]+\.[a-z]{2,}\//i.test(rest);
+      location.replace(base + (hasLink ? '?text=' + encodeURIComponent(rest + location.search) : ''));
+    })();
+  </script>
+</head>
+<body style="background:#080808"></body>
+</html>
